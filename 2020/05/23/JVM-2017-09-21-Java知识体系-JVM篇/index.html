@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java知识体系 -- JVM篇 | Pirate5946 | coding world, coding life.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="JVM,Java知识体系">
+  <meta name="description" content="参考文章  类加载机制（类加载过程和类加载器） JVM加载class文件的原理类加载机制 类加载机制的定义    JVM 通过 ClassLaoder 将 主机硬盘里的 Class文件（8字节为单位的二进制流，任何编程语言通过各自的编译器都能编译成对应的Class文件） 加载到 JVM的方法区，并对方法区中 Class字节码进行 校验、解析、和初始化、最终形成可以被JVM直接使用的 数据类型 类加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java知识体系 -- JVM篇">
+<meta property="og:url" content="http://yoursite.com/2020/05/23/JVM-2017-09-21-Java%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB-JVM%E7%AF%87/index.html">
+<meta property="og:site_name" content="Pirate5946">
+<meta property="og:description" content="参考文章  类加载机制（类加载过程和类加载器） JVM加载class文件的原理类加载机制 类加载机制的定义    JVM 通过 ClassLaoder 将 主机硬盘里的 Class文件（8字节为单位的二进制流，任何编程语言通过各自的编译器都能编译成对应的Class文件） 加载到 JVM的方法区，并对方法区中 Class字节码进行 校验、解析、和初始化、最终形成可以被JVM直接使用的 数据类型 类加">
+<meta property="og:image" content="http://ovybbprpf.bkt.clouddn.com/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B.png">
+<meta property="og:image" content="http://ovybbprpf.bkt.clouddn.com/JVM%E7%B3%BB%E5%88%97-%E5%86%85%E5%AD%98%E3%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6.png">
+<meta property="article:published_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:modified_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:author" content="Pirate5946">
+<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="Java知识体系">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ovybbprpf.bkt.clouddn.com/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Pirate5946" type="application/atom+xml">
+  
+  <meta name="summary" content="a coder">
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Pirate5946</h5>
+        <a href="mailto:739686950@qq.com" title="739686950@qq.com" class="mail">739686950@qq.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/Pirate5946" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/404"  >
+              <i class="icon icon-lg icon-link"></i>
+              测试
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Pirate5946 &copy; 2020</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java知识体系 -- JVM篇</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">Java知识体系 -- JVM篇</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2020-05-23T04:49:31.000Z" itemprop="datePublished" class="page-time">
+  2020-05-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/JVM/">JVM</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/JVM/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98/">Java基础与提高</a></li></ul></li></ul>
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-JVM-2017-09-21-Java知识体系-JVM篇" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">Java知识体系</a></li></ul>
+
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类加载机制"><span class="post-toc-number">1.</span> <span class="post-toc-text">类加载机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#类加载的过程"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">类加载的过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#类的链接"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">类的链接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#类的初始化"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">类的初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#类加载器与双亲委派模型"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">类加载器与双亲委派模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缓存机制"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">缓存机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自定义类加载器"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">自定义类加载器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#类的实例化"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">类的实例化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GC"><span class="post-toc-number">2.</span> <span class="post-toc-text">GC</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JVM内存模型"><span class="post-toc-number">3.</span> <span class="post-toc-text">JVM内存模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#内存分为哪几部分"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">内存分为哪几部分</span></a></li></ol></li></ol>
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <p>参考文章</p>
+<ul>
+<li><a href="http://blog.csdn.net/boyupeng/article/details/47951037" target="_blank" rel="noopener">类加载机制（类加载过程和类加载器）</a></li>
+<li><a href="http://blog.csdn.net/likika2012/article/details/45575285" target="_blank" rel="noopener">JVM加载class文件的原理</a><h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><blockquote>
+<p>类加载机制的定义</p>
+</blockquote>
+</li>
+</ul>
+<p>JVM 通过 ClassLaoder 将 主机硬盘里的 <strong>Class文件</strong>（8字节为单位的二进制流，任何编程语言通过各自的编译器都能编译成对应的Class文件） 加载到 JVM的方法区，<br>并对方法区中 <strong>Class字节码</strong>进行 校验、解析、和初始化、最终形成可以被JVM直接使用的 <strong>数据类型</strong></p>
+<h3 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h3><ol>
+<li>类文件的加载     <ul>
+<li>通过一个类的名字==获取此类的二进制字节流==（PS：不限于从文件中读取）<ul>
+<li>从EAR包、WAR包、JAR包中获取</li>
+<li>从网络中获取，这种场景最典型的应用就是Applet</li>
+<li>运行时计算生成，这种场景使用得最多的就是动态代理技术，在java.lang.reflect.Proxy 中，就是用了ProxyGenerator.generateProxyClass来为特定接口生成形式为“*$Proxy”的代理类 的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。(<strong>运行时数据结构是什么</strong>，由具体的虚拟机自己定义) </li>
+<li>在内存中==生成一个代表这个类的java.lang.Class对象==，作为方法区这个类的各种数据的访问入口。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>当类加载完成后，系统会给为之生成一个对象 ==（对象的实例化，还没有被栈里的指针引用）==<br><strong>defineClass方法可以把二进制流字节组成的文件转换为一个java.lang.Class</strong>（只要二进制字节流的内容符合Class文件规范）。==这个对象作为程序访问方法区中的这些类型数据的外部接口==</p>
+<p>==随后进入链接阶段，链接阶段负责把类的二进制数据添加到JRE中。==</p>
+<hr>
+<h3 id="类的链接"><a href="#类的链接" class="headerlink" title="类的链接"></a>类的链接</h3><ol start="2">
+<li>Class文件的==字节流验证==：<ul>
+<li>文件格式验证</li>
+<li>元数据验证（语义分析，类与类的继承关系等）</li>
+<li>字节码验证（数据流和控制流分析）</li>
+<li>符号引用验证（对类自身以外的信息进行匹配校验）</li>
+</ul>
+</li>
+<li>准备<br> 正式为类变量分配内存并设置<strong>默认初始值</strong>，这里类变量指的是被static修饰的变量。例外：如果类字段是常量 <strong>(被final修饰)</strong>，则在这里会被初始化为表达式指定的值</li>
+<li>解析：<br>将常量池内的符号引用替换为直接引用。<br>符号引用：类似于OS中的逻辑地址；<br>直接引用：类似于OS中的物理地址，直接指向目标的指针、相对偏移量或一个能间接定位到目标的句柄。     </li>
+</ol>
+<hr>
+<h3 id="类的初始化"><a href="#类的初始化" class="headerlink" title="类的初始化"></a>类的初始化</h3><ol start="5">
+<li>初始化：     </li>
+</ol>
+<p>真正开始执行类中定义的Java程序代码；初始化用于执行Java类的构造方法。<br>初始化阶段是执行类构造器<clinit>()方法的过程。  </p>
+<p>在以下四种情况下初始化过程会被触发执行：    </p>
+<ul>
+<li>遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需先触发其初始化。<br>生成这4条指令的最常见的java代码场景是：<ul>
+<li>使用new关键字实例化对象、</li>
+<li>读取或设置一个类的静态字段的时候 (被final修饰、已在编译器把结果放入常量池的静态字段除外[intern()方法])，</li>
+<li>调用类的静态方法的时候。</li>
+</ul>
+</li>
+<li>使用java.lang.reflect包的方法对类进行反射调用的时候</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行过初始化、则需要先出发其父类的初始化</li>
+<li>jvm启动时，用户指定一个执行的主类(包含main方法的那个类)，虚拟机会先初始化这个类</li>
+</ul>
+<p>举个栗子：<br>在上面<strong>准备阶段</strong> public static int value  = 12;  在准备阶段完成后 value的值为0，<br>而在<strong>初始化阶段</strong>调用了类构造器<clinit>()方法，这个阶段完成后value的值为12。</p>
+<p>类初始化的过程是不可逆的，如果中间一步出错，则无法执行下一步</p>
+<hr>
+<h3 id="类加载器与双亲委派模型"><a href="#类加载器与双亲委派模型" class="headerlink" title="类加载器与双亲委派模型"></a>类加载器与双亲委派模型</h3><p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-classloader/" target="_blank" rel="noopener">深入探讨 Java 类加载器</a></p>
+<ol>
+<li><p>Bootstrap ClassLoader :<br>将存放于<JAVA_HOME>\lib目录中的，或者被-Xbootclasspath参数所指定的路径中的，并且是虚拟机识别的（仅按照文件名识别，如 rt.jar 名字不符合的类库即使放在lib目录中也不会被加载）类库加载到虚拟机内存中。启动类加载器无法被Java程序直接引用</p>
+</li>
+<li><p>Extension ClassLoader :<br>将<JAVA_HOME>\lib\ext目录下的，或者被java.ext.dirs系统变量所指定的路径中的所有类库加载。开发者可以直接使用扩展类加载器。</p>
+</li>
+<li><p>Application ClassLoader :<br>负责加载用户类路径(ClassPath)上所指定的类库,开发者可直接使用。</p>
+</li>
+</ol>
+<p><img src="http://ovybbprpf.bkt.clouddn.com/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B.png" alt="类加载器双亲委派模型"><br>工作过程：<br>如果一个类加载器接收到了类加载的请求，它首先把这个请求委托给他的父类加载器去完成，<br>每个层次的类加载器都是如此，因此<strong>所有的加载请求都应该传送到顶层的启动类加载器中</strong>，<br>只有当父加载器反馈自己无法完成这个加载请求（它在搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。</p>
+<p>好处：</p>
+<ol>
+<li>安全性<br>避免用户编写的类动态替换Java的一些核心类    </li>
+</ol>
+<p><strong>java类随着它的类加载器一起具备了一种带有优先级的层次关系</strong>。<br>例如类java.lang.Object，它存放在rt.jar中，无论哪个类加载器要加载这个类，最终都会委派给启动类加载器进行加载，因此<strong>Object类在程序的各种类加载器环境中都是同一个类</strong>。<br>2. 避免类的重复加载<br> JVM中区分不同类，不仅仅是根据类名，相同的 class文件被不同的 ClassLoader加载就是不同的两个类。</p>
+<p>相反，如果用户自己写了一个名为java.lang.Object的类，并放在程序的Classpath中，那系统中将会出现多个不同的Object类，java类型体系中最基础的行为也无法保证，应用程序也会变得一片混乱。</p>
+<h3 id="缓存机制"><a href="#缓存机制" class="headerlink" title="缓存机制"></a>缓存机制</h3><p>所有加载过的类都会缓存在内存中，<br>如果程序中尝试使用某个class时，先从缓存中查找这个类；<br>如果不存在，则读取该类对应的二进制文件并将其转换为class对象并存入缓存区。<br>这就是为什么类修改后需要重启的原因。</p>
+<h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p>java.lang.ClassLoader类的基本职责就是根据一个指定的类的名称，找到或者生成其对应的字节代码，然后从这些字节代码中定义出一个 Java 类，即 java.lang.Class类的一个实例</p>
+<ol>
+<li><p>从上面源码看出，调用loadClass时会先根据委派模型在父加载器中加载，如果加载失败，则会调用当前加载器的findClass来完成加载。</p>
+</li>
+<li><p>因此我们<strong>自定义的类加载器只需要继承ClassLoader</strong>，<strong>并覆盖findClass方法</strong>，下面是一个实际例子，在该例中我们用自定义的类加载器去加载我们事先准备好的class文件。         </p>
+</li>
+</ol>
+<p><strong>ClassLoader.defineClass()方法可以把二进制流字节组成的文件转换为一个java.lang.Class</strong></p>
+<p><a href="http://blog.csdn.net/boyupeng/article/details/47951037" target="_blank" rel="noopener">优秀文章 - 类加载分析，自定义类加载器</a></p>
+<p><a href="http://blog.csdn.net/seu_calvin/article/details/52315125" target="_blank" rel="noopener">为什么要自定义类加载器</a></p>
+<ul>
+<li>对代码进行加密</li>
+<li>从指定来源加载类</li>
+<li>综合前两种情况</li>
+</ul>
+<h3 id="类的实例化"><a href="#类的实例化" class="headerlink" title="类的实例化"></a>类的实例化</h3><ol>
+<li>Class.forName(“包名.类名”).newInstance();   // 类加载机制</li>
+<li>new 类名();  // 类加载的初始化阶段</li>
+</ol>
+<p>newInstance()实际上是把new这个方式分解为两步，即首先调用Class加载方法加载某个类，然后实例化。<br>这样分步的好处是显而易见的。类的加载 和 类实例化 分开处理。<br>我们可以在调用class的静态加载方法forName时获得更好的灵活性，提供给了一种解耦的手段。</p>
+<p>区别：      </p>
+<ol>
+<li>Class下的newInstance()的使用有局限，因为它生成对象只能调用无参的构造函数；使用 new关键字生成对象没有这个限制。</li>
+<li>newInstance( )是一个方法，而new是一个关键字；</li>
+</ol>
+<hr>
+<p>参考文章：  </p>
+<ol>
+<li><a href="http://blog.csdn.net/boyupeng/article/details/47948243" target="_blank" rel="noopener">垃圾回收机制 &amp;&amp; 弱引用</a><h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2></li>
+</ol>
+<hr>
+<p>参考文章    </p>
+<ol>
+<li><a href="http://blog.csdn.net/java2000_wl/article/details/8009362" target="_blank" rel="noopener"> Java虚拟机学习 - 体系结构 内存模型</a><h2 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h2></li>
+</ol>
+<p><img src="http://ovybbprpf.bkt.clouddn.com/JVM%E7%B3%BB%E5%88%97-%E5%86%85%E5%AD%98%E3%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6.png" alt="image"></p>
+<p>JDK1.7以前 常量池是放在Java JVM中的方法区中的，许多人也叫它“永久代”     </p>
+<p>JDK1.7中，这个常量池是移动到了java堆中去了</p>
+<p>JDK1.8中，移除整个永久代（常量池），取而代之的是一个叫元空间（Metaspace）的区域，（使用本地内存来存储类元数据信息）</p>
+<h3 id="内存分为哪几部分"><a href="#内存分为哪几部分" class="headerlink" title="内存分为哪几部分"></a>内存分为哪几部分</h3><p>1. </p>
+
+
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://yoursite.com/2020/05/23/JVM-2017-09-21-Java%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB-JVM%E7%AF%87/" target="_blank" rel="external">http://yoursite.com/2020/05/23/JVM-2017-09-21-Java%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB-JVM%E7%AF%87/</a>
+                </p>
+                <footer><cite><a href="http://yoursite.com">@Pirate5946</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-09-12-%E5%B0%81%E8%A3%85%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E5%A4%9A%E6%80%81/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">封装,继承,多态</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JVM-2017-09-21-Java知识体系-JVM篇" data-title="Java知识体系 -- JVM篇" data-url="http://yoursite.com/2020/05/23/JVM-2017-09-21-Java%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB-JVM%E7%AF%87/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "Java知识体系 -- JVM篇",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://yoursite.com/2020/05/23/JVM-2017-09-21-Java%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB-JVM%E7%AF%87/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+
+<script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

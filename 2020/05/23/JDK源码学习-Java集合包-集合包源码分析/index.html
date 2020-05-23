@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JDK源码学习-Java集合包-集合包源码分析 | Pirate5946 | coding world, coding life.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="">
+  <meta name="description" content="ArrayList参考文章— jdk1.8.0_45源码解读——ArrayList的实现参考文章2—详细文字注释参考文章3—图片分析 1234567891011121314public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;        implements List&lt;E&gt;, RandomAccess, Clone">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDK源码学习-Java集合包-集合包源码分析">
+<meta property="og:url" content="http://yoursite.com/2020/05/23/JDK%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-Java%E9%9B%86%E5%90%88%E5%8C%85-%E9%9B%86%E5%90%88%E5%8C%85%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Pirate5946">
+<meta property="og:description" content="ArrayList参考文章— jdk1.8.0_45源码解读——ArrayList的实现参考文章2—详细文字注释参考文章3—图片分析 1234567891011121314public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;        implements List&lt;E&gt;, RandomAccess, Clone">
+<meta property="article:published_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:modified_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:author" content="Pirate5946">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="Pirate5946" type="application/atom+xml">
+  
+  <meta name="summary" content="a coder">
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Pirate5946</h5>
+        <a href="mailto:739686950@qq.com" title="739686950@qq.com" class="mail">739686950@qq.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/Pirate5946" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/404"  >
+              <i class="icon icon-lg icon-link"></i>
+              测试
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Pirate5946 &copy; 2020</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JDK源码学习-Java集合包-集合包源码分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">JDK源码学习-Java集合包-集合包源码分析</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2020-05-23T04:49:31.000Z" itemprop="datePublished" class="page-time">
+  2020-05-23
+</time>
+
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-JDK源码学习-Java集合包-集合包源码分析" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ArrayList"><span class="post-toc-number">1.</span> <span class="post-toc-text">ArrayList</span></a></li></ol>
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><p><a href="http://www.cnblogs.com/CherishFX/p/4725394.html" target="_blank" rel="noopener">参考文章— jdk1.8.0_45源码解读——ArrayList的实现</a><br><a href="http://blog.csdn.net/gulu_gulu_jp/article/details/51456969" target="_blank" rel="noopener">参考文章2—详细文字注释</a><br><a href="http://blog.csdn.net/u011392897/article/details/57105709" target="_blank" rel="noopener">参考文章3—图片分析</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;</span><br><span class="line">        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</span><br><span class="line">&#96;&#96;&#96;        </span><br><span class="line">实际上java.util.ArrayList是个固定大小的对象，自身并不直接存储元素内容，而是持有一个引用&#x3D;&#x3D;element&#x3D;&#x3D;指向一个数组&#x3D;&#x3D;Object[]&#x3D;&#x3D;，真正负责存储元素内容的正是这个数组    </span><br><span class="line"></span><br><span class="line">定义了一个int值&#x3D;&#x3D;size&#x3D;&#x3D;表示数组的长度&#x3D;&#x3D;element.length&#x3D;&#x3D;    </span><br><span class="line"></span><br><span class="line">当需要扩容时，扩容的是这个数组，而不是ArrayList对象自身。(https:&#x2F;&#x2F;www.zhihu.com&#x2F;question&#x2F;48872729)</span><br><span class="line"></span><br><span class="line">- 线程不安全 modCount记录修改次数</span><br><span class="line"></span><br><span class="line">&gt; 构造函数初始化</span><br><span class="line"></span><br><span class="line">有三种构造器，原理是new一个object[]赋值给默认属性 elementData</span><br></pre></td></tr></table></figure>
+<p>public ArrayList(int initialCapacity) //指定容量的 object[],不能小于0</p>
+<p>public ArrayList() //默认初始化为 {}，空的数组</p>
+<p>public ArrayList(Collection&lt;? extends E&gt; c) // </p>
+<pre><code>
+&gt; 常用方法  
+
+### 增加  
+- public void add(int index, E element)     
+往指定索引位置新增元素，确保索引没有越过上界和下界    
+检查长度+1后有没有超过数组  
+然后通过==system.arraycopy()方法==将位置为==index==的(==size-index==)个字符复制到到index+1的位置（相当于将原来的元素整体后移一位 ）
+
+- public boolean addAll(int index, Collection&lt;? extends E&gt; c)   
+原理跟 public void add(int index, E element)差不多，    
+检查增加Collection后，数组是否需要扩容      
+然后通过==system.arraycopy()方法==将原来从element[index]开始的size-index个元素复制到element[index+c.length]
+
+==往arraylist指向的数组中添加元素时会判断元素个数，小于10则初始化数组长度为10==
+- public boolean add(E e)
+检查元素个数+1后是否超出数组容量，超出则将数组容量增加一半（原容量右移一位）
+最后elementData[size++] = e
+
+- public boolean addAll(Collection&lt;? extends E&gt; c)      
+原理跟public boolean add(E e)差不多     
+获取c的长度，检查size+a.length的长度是否超过数组容量一半（原容量右移一位）==如果新增一半还不够，就新增size+c.length，不能超过int.MAX_VALUE==  
+最后将新增的元素复制到数组的末尾，size+=c.length
+
+
+### 删除
+- public E remove(int index)    
+//判断index是否 &lt;= size         
+//将数组elementData中index位置之后的所有元素向前移一位      
+//将原数组最后一个位置置为null，由GC清理
+
+- public boolean remove(Object o)   
+//移除ArrayList中首次出现的指定元素(如果存在)，ArrayList中允许存放重复的元素    
+// 由于ArrayList中允许存放null，因此下面通过两种情况来分别处理。    
+如果要删除的元素是null，null没有equals方法，只能判断值    
+//私有的移除方法，跳过index参数的边界检查以及不返回任何值
+
+
+- protected void removeRange(int fromIndex, int toIndex)        
+//删除ArrayList中从fromIndex（包含）到toIndex（不包含）之间所有的元素，共移除了toIndex-fromIndex个元素
+
+- public boolean removeAll(Collection&lt;?&gt; c)     
+//删除ArrayList中包含在指定容器c中的所有元素        
+读写双指针，遍历整个数组，判断数组中元素与传入的集合中的元素是否有重合，把不包含在原集合的元素保留下来，==重合的元素删除==
+
+- public boolean retainAll(Collection&lt;?&gt; c)     
+//移除ArrayList中不包含在指定容器c中的所有元素，与removeAll(Collection&lt;?&gt; c)正好相反  
+把传入集合与原集合相同的元素保留下来，==不相同的元素删除==
+
+- public void clear()   
+//清空ArrayList，将全部的元素设为null
+### 获取
+- public E get(int index)   
+
+### 修改
+- public E set(int index, E element)        
+检查索引是否越界        
+将旧索引值返回，旧索引指向新传入的元素
+
+### 查找元素
+- public boolean contains(Object o)       
+//遍历ArrayList，判断元素在集合中的索引值是否大于0
+- public int indexOf(Object o)      
+//正向查找，返回ArrayList中元素Object o第一次出现的位置，如果元素不存在，则返回-1
+
+- public int lastIndexOf(Object o)          
+//逆向查找，返回ArrayList中元素Object o最后一次出现的位置，如果元素不存在，则返回-1   
+- public E get(int index)       
+//返回指定索引处的元素
+
+### 其他public方法  
+- public void trimToSize()  
+//将底层数组的容量调整为当前列表保存的实际元素的大小的功能
+
+- public int size()     
+//返回ArrayList的大小（元素个数）
+
+- public boolean isEmpty()      
+//判断ArrayList是否为空
+
+- public Object clone()       
+//返回此 ArrayList实例的浅拷贝（modcount = 0）
+
+- public Object[] toArray()       
+//返回一个包含ArrayList中所有元素的数组
+
+- public &lt;T&gt; T[] toArray(T[] a)       
+//如果给定的参数数组长度足够，则将ArrayList中所有元素按序存放于参数数组中，并返回      
+//如果给定的参数数组长度小于ArrayList的长度，则返回一个新分配的、长度等于ArrayList长度的、包含ArrayList中所有元素的新数组
+
+### 序列化 
+- 写入函数writeObject(java.io.ObjectOutputStream s)
+
+- 读取函数readObject(java.io.ObjectInputStream s)
+
+### ArrayList的四种遍历方式 
+- 泛型在编译时会被擦除（变为Object），通过迭代器遍历获取时向下转型为源类型（泛型补偿）
+
+
+
+
+
+
+
+
+
+
+
+
+
+</code></pre>
+
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://yoursite.com/2020/05/23/JDK%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-Java%E9%9B%86%E5%90%88%E5%8C%85-%E9%9B%86%E5%90%88%E5%8C%85%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" target="_blank" rel="external">http://yoursite.com/2020/05/23/JDK%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-Java%E9%9B%86%E5%90%88%E5%8C%85-%E9%9B%86%E5%90%88%E5%8C%85%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</a>
+                </p>
+                <footer><cite><a href="http://yoursite.com">@Pirate5946</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+    <div class="waves-block waves-effect prev fl">
+      <a href="/2020/05/23/JDK%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-Java%E9%9B%86%E5%90%88%E5%8C%85-%E9%9B%86%E5%90%88%E5%8C%85%E6%80%BB%E7%BB%93/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JDK源码学习-Java集合包-集合包总结</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2020/05/23/2017-09-05-ceshi/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">博客处女作</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JDK源码学习-Java集合包-集合包源码分析" data-title="JDK源码学习-Java集合包-集合包源码分析" data-url="http://yoursite.com/2020/05/23/JDK%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-Java%E9%9B%86%E5%90%88%E5%8C%85-%E9%9B%86%E5%90%88%E5%8C%85%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "JDK源码学习-Java集合包-集合包源码分析",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://yoursite.com/2020/05/23/JDK%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-Java%E9%9B%86%E5%90%88%E5%8C%85-%E9%9B%86%E5%90%88%E5%8C%85%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+
+<script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

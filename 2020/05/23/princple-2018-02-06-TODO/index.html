@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>princple-2018-02-06-TODO | Pirate5946 | coding world, coding life.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="">
+  <meta name="description" content="title: Todo List - 工作、学习categories:  201810 TODO  tags:  待办事项    清晰的里程碑 最大的困难，次大的困难 诊断问题，找到问题的核心 解决困难的办法，方案 坚决地执行    Tode List of Work 计算机操作系统 第二章-进程管理 python视频 H:\Python3入门与进阶 python知识点   高等数学 同济版 上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="princple-2018-02-06-TODO">
+<meta property="og:url" content="http://yoursite.com/2020/05/23/princple-2018-02-06-TODO/index.html">
+<meta property="og:site_name" content="Pirate5946">
+<meta property="og:description" content="title: Todo List - 工作、学习categories:  201810 TODO  tags:  待办事项    清晰的里程碑 最大的困难，次大的困难 诊断问题，找到问题的核心 解决困难的办法，方案 坚决地执行    Tode List of Work 计算机操作系统 第二章-进程管理 python视频 H:\Python3入门与进阶 python知识点   高等数学 同济版 上">
+<meta property="og:image" content="h:%5C%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%5C%E5%9C%A8%E7%B6%AB%E8%85%A6%E5%9C%96.png">
+<meta property="article:published_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:modified_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:author" content="Pirate5946">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="h:%5C%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%5C%E5%9C%A8%E7%B6%AB%E8%85%A6%E5%9C%96.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Pirate5946" type="application/atom+xml">
+  
+  <meta name="summary" content="a coder">
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Pirate5946</h5>
+        <a href="mailto:739686950@qq.com" title="739686950@qq.com" class="mail">739686950@qq.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/Pirate5946" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/404"  >
+              <i class="icon icon-lg icon-link"></i>
+              测试
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Pirate5946 &copy; 2020</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">princple-2018-02-06-TODO</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">princple-2018-02-06-TODO</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2020-05-23T04:49:31.000Z" itemprop="datePublished" class="page-time">
+  2020-05-23
+</time>
+
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-princple-2018-02-06-TODO" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Tode-List-of-Work"><span class="post-toc-number">1.</span> <span class="post-toc-text">Tode List of Work</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Todo-List-of-Study"><span class="post-toc-number">2.</span> <span class="post-toc-text">Todo List of Study</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#宏观规划"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">宏观规划</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#具体操作"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">具体操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ToDo-List"><span class="post-toc-number">3.</span> <span class="post-toc-text">ToDo List</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#英语"><span class="post-toc-number">4.</span> <span class="post-toc-text">英语</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数学（微积分）"><span class="post-toc-number">5.</span> <span class="post-toc-text">数学（微积分）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#政治"><span class="post-toc-number">6.</span> <span class="post-toc-text">政治</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Mathmatical-formula"><span class="post-toc-number">7.</span> <span class="post-toc-text">Mathmatical formula</span></a></li></ol>
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <hr>
+<p>title: Todo List - 工作、学习<br>categories:</p>
+<ul>
+<li>201810</li>
+<li>TODO</li>
+</ul>
+<p>tags:</p>
+<ul>
+<li>待办事项</li>
+</ul>
+<hr>
+<ol>
+<li>清晰的里程碑<ol start="2">
+<li>最大的困难，次大的困难</li>
+<li>诊断问题，找到问题的核心</li>
+<li>解决困难的办法，方案</li>
+<li>坚决地执行</li>
+</ol>
+</li>
+</ol>
+<h2 id="Tode-List-of-Work"><a href="#Tode-List-of-Work" class="headerlink" title="Tode List of Work"></a>Tode List of Work</h2><ul>
+<li>计算机操作系统 第二章-进程管理</li>
+<li>python视频 H:\Python3入门与进阶<ul>
+<li><a href="">python知识点</a></li>
+</ul>
+</li>
+<li>高等数学 同济版 上册</li>
+<li>LeetCode刷题</li>
+<li>排序算法代码整理  </li>
+<li>递归、分治策略、动态规划以及贪心算法之间的关系</li>
+<li><a href="http://www.bilibili.com/video/av17952743?share_medium=android&amp;share_source=copy_link&amp;bbid=87E1A2EB-DC6F-4726-A9A5-51D5A927762310277infoc&amp;ts=1517586081164" target="_blank" rel="noopener">http://www.bilibili.com/video/av17952743?share_medium=android&amp;share_source=copy_link&amp;bbid=87E1A2EB-DC6F-4726-A9A5-51D5A927762310277infoc&amp;ts=1517586081164</a></li>
+</ul>
+<hr>
+<ul>
+<li>算法题目整理      <ul>
+<li>二叉树的</li>
+</ul>
+</li>
+<li>阿里大数据 学习文档</li>
+</ul>
+<hr>
+<ul>
+<li><p><a href="http://ylxt.dhcc.com.cn/ylxt/uimain.aspx#" target="_blank" rel="noopener">医疗协同 日报</a></p>
+</li>
+<li><p><a href="http://xmgl.donghuajinyun.com/access.do" target="_blank" rel="noopener">项目周报系统 - 用IE打开</a></p>
+</li>
+<li><p><a href="http://mail.dhcc.com.cn/user/?q=login" target="_blank" rel="noopener">周报邮件</a>    F:\报表_北京中关村银行报表系统\每周周报</p>
+</li>
+<li><p>2018规划、月计划周安排整理</p>
+</li>
+<li><p>随时记 电影、电视剧、音乐、综艺</p>
+</li>
+</ul>
+<hr>
+<h2 id="Todo-List-of-Study"><a href="#Todo-List-of-Study" class="headerlink" title="Todo List of Study"></a>Todo List of Study</h2><ul>
+<li>leetcode日记、阅读日记 - <a href="https://leetcode.com/tag/backtracking/" target="_blank" rel="noopener">Backtracking 专题</a></li>
+<li><a href="http://open.163.com/special/Khan/precalculus.html" target="_blank" rel="noopener">可汗学院公开课：微积分预备</a></li>
+<li><a href="http://write.blog.csdn.net/postlist" target="_blank" rel="noopener">CSDN 博客 -  赚积分，下载408真题</a></li>
+<li>单词打卡、听力、阅读</li>
+<li>leetcode、PAT 刷题打卡</li>
+</ul>
+<h3 id="宏观规划"><a href="#宏观规划" class="headerlink" title="宏观规划"></a>宏观规划</h3><ul>
+<li>==制定 学习时间表== </li>
+<li>整理近五年各科真题<h3 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h3></li>
+<li>检索和散列类 p410</li>
+<li>leetcode 解题思路 1-34<br><a href="http://www.cnblogs.com/zmyvszk/archive/2016/04.html" target="_blank" rel="noopener">http://www.cnblogs.com/zmyvszk/archive/2016/04.html</a></li>
+</ul>
+<hr>
+<h2 id="ToDo-List"><a href="#ToDo-List" class="headerlink" title="ToDo List"></a>ToDo List</h2><ul>
+<li>确定一个Java开源项目、<ul>
+<li>相关主题 netty源码结构分析 </li>
+<li>分布式、数据库</li>
+<li>微服务</li>
+<li>==数据库索引 使用的算法==</li>
+</ul>
+</li>
+<li>数据结构 <ul>
+<li>数据结构与Java集合框架 p513<br>附录 C  Collection 接口与 ==集合框架体系==  </li>
+<li>树 –》 Treemap       </li>
+</ul>
+</li>
+<li>Java编程思想 回顾总结、笔记（大纲性笔记）<ul>
+<li>集合框架、数据结构、LeetCode 刷题（==经常练习、常用方法笔记==）</li>
+<li>跟完 邓俊辉数据结构、笔记、算法刷题 </li>
+<li>数据结构和Java集合框架</li>
+</ul>
+</li>
+<li>JUC脑图  </li>
+</ul>
+<hr>
+<h2 id="英语"><a href="#英语" class="headerlink" title="英语"></a>英语</h2><ul>
+<li><input disabled="" type="checkbox"> 音标（英式发音、美式发音） – 时常回顾缤纷英语的收藏课程<ul>
+<li>重读的位置 ： 区分单词的词性  ，名词、动词、形容词 </li>
+<li>发音长短：长元音、短元音</li>
+<li>辅音与元音的连读： 上一个单词的结尾辅音+下一个单词的元音开头</li>
+<li>清辅音结尾与浊辅音结尾 </li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> 跟完逻辑英语、B站英语收藏夹、笔记、日常练习<ul>
+<li>词根词缀  b站收藏夹</li>
+<li>扇贝阅读、阅读真题训练</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 每日一篇文章、背诵句子、整理单词至少每周回顾，最好每1-3天回顾一次<ul>
+<li>缤纷英语</li>
+<li>有道词典</li>
+<li>扇贝阅读</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="数学（微积分）"><a href="#数学（微积分）" class="headerlink" title="数学（微积分）"></a>数学（微积分）</h2><ul>
+<li>学习资料整理  </li>
+<li>做题、笔记整理回顾</li>
+</ul>
+<hr>
+<h2 id="政治"><a href="#政治" class="headerlink" title="政治"></a>政治</h2><ul>
+<li>整理答题思路、背诵 固定句式</li>
+</ul>
+<hr>
+<ul>
+<li>设计模式、 第一遍笔记</li>
+<li><input disabled="" type="checkbox"> 高级Bash编程指南  <ul>
+<li>中级 - 第九章（<strong>参考书式的笔记</strong>）</li>
+<li>第十章 <strong>循环和分支</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="H:%5C%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%5C%E5%9C%A8%E7%B6%AB%E8%85%A6%E5%9C%96.png" alt="TodoList"></p>
+<hr>
+<p>数学公式</p>
+<h2 id="Mathmatical-formula"><a href="#Mathmatical-formula" class="headerlink" title="Mathmatical formula"></a>Mathmatical formula</h2><p><code>$y = x^2$</code></p>
+<p>Inline math: <code>$\dfrac{\tfrac{1}{2}[1-(\tfrac{1}{2})^n] }{1-\tfrac{1}{2} } = s_n$</code></p>
+<p>Math block:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">\oint_C x^3\, dx + 4y^2\, dy</span><br><span class="line"></span><br><span class="line">2 &#x3D; \left(\frac&#123;\left(3-x\right) \times 2&#125;&#123;3-x&#125;\right)</span><br><span class="line"></span><br><span class="line">\sum_&#123;m&#x3D;1&#125;^\infty\sum_&#123;n&#x3D;1&#125;^\infty\frac&#123;m^2\,n&#125;&#123;3^m\left(m\,3^n+n\,3^m\right)&#125;</span><br><span class="line"></span><br><span class="line">\phi_n(\kappa) &#x3D; </span><br><span class="line">\frac&#123;1&#125;&#123;4\pi^2&#125; \int_0^\infty</span><br><span class="line">\frac&#123;\sin(\kappa R)&#125;&#123;\kappa R&#125;</span><br><span class="line">\frac&#123;\partial&#125;&#123;\partial R&#125;</span><br><span class="line">\left[R^2\frac&#123;\partial D_n(R)&#125;&#123;\partial R&#125;\right]\,dR</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://yoursite.com/2020/05/23/princple-2018-02-06-TODO/" target="_blank" rel="external">http://yoursite.com/2020/05/23/princple-2018-02-06-TODO/</a>
+                </p>
+                <footer><cite><a href="http://yoursite.com">@Pirate5946</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+    <div class="waves-block waves-effect prev fl">
+      <a href="/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-08-30-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">动态代理原理分析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2020/05/23/interview-10-8-%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">面试整理</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="princple-2018-02-06-TODO" data-title="princple-2018-02-06-TODO" data-url="http://yoursite.com/2020/05/23/princple-2018-02-06-TODO/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "princple-2018-02-06-TODO",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://yoursite.com/2020/05/23/princple-2018-02-06-TODO/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+
+<script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

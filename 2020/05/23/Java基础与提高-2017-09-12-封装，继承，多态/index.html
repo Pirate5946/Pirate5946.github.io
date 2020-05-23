@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>封装,继承,多态 | Pirate5946 | coding world, coding life.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="Java基础特性">
+  <meta name="description" content="Java提高篇1 - 封装 Java特性 - 封装 隐藏类的属性和内部方法，只暴露必要的访问接口  调整类的属性或者方法时，接口方法不用改动，调整内部实现就可以  可以对成员变量的访问进行控制，（进行逻辑判断检查输入的数据是否符合要求），提高代码健壮性    Java特性 - 继承1、子类拥有父类&#x3D;&#x3D;非private&#x3D;&#x3D;的属性和方法。 2、子类可以拥有自己属性和方法，即子类可以对父类进行扩展。 3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="封装,继承,多态">
+<meta property="og:url" content="http://yoursite.com/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-09-12-%E5%B0%81%E8%A3%85%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E5%A4%9A%E6%80%81/index.html">
+<meta property="og:site_name" content="Pirate5946">
+<meta property="og:description" content="Java提高篇1 - 封装 Java特性 - 封装 隐藏类的属性和内部方法，只暴露必要的访问接口  调整类的属性或者方法时，接口方法不用改动，调整内部实现就可以  可以对成员变量的访问进行控制，（进行逻辑判断检查输入的数据是否符合要求），提高代码健壮性    Java特性 - 继承1、子类拥有父类&#x3D;&#x3D;非private&#x3D;&#x3D;的属性和方法。 2、子类可以拥有自己属性和方法，即子类可以对父类进行扩展。 3">
+<meta property="article:published_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:modified_time" content="2020-05-23T04:49:31.000Z">
+<meta property="article:author" content="Pirate5946">
+<meta property="article:tag" content="Java基础特性">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="Pirate5946" type="application/atom+xml">
+  
+  <meta name="summary" content="a coder">
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Pirate5946</h5>
+        <a href="mailto:739686950@qq.com" title="739686950@qq.com" class="mail">739686950@qq.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/Pirate5946" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/404"  >
+              <i class="icon icon-lg icon-link"></i>
+              测试
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Pirate5946 &copy; 2020</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">封装,继承,多态</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">封装,继承,多态</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2020-05-23T04:49:31.000Z" itemprop="datePublished" class="page-time">
+  2020-05-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98/">Java基础与提高</a></li></ul>
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-Java基础与提高-2017-09-12-封装，继承，多态" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/" rel="tag">Java基础特性</a></li></ul>
+
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java特性-封装"><span class="post-toc-number">1.</span> <span class="post-toc-text">Java特性 - 封装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java特性-继承"><span class="post-toc-number">2.</span> <span class="post-toc-text">Java特性 - 继承</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#注意事项"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">注意事项</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#应用场景"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">应用场景</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#子类的实例化过程"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">子类的实例化过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#子类实例化的时候为什么要访问父类中的构造函数"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">子类实例化的时候为什么要访问父类中的构造函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#谨慎使用继承"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">谨慎使用继承</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java特性-多态"><span class="post-toc-number">3.</span> <span class="post-toc-text">Java特性 - 多态</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#多态原理"><span class="post-toc-number">4.</span> <span class="post-toc-text">多态原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#多态时成员的特点"><span class="post-toc-number">5.</span> <span class="post-toc-text">多态时成员的特点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#覆盖重写只发生在方法上，父类的属性无法被覆盖"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">覆盖重写只发生在方法上，父类的属性无法被覆盖</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#判断对象具体类型的关键字"><span class="post-toc-number">6.</span> <span class="post-toc-text">判断对象具体类型的关键字</span></a></li></ol>
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://blog.csdn.net/chenssy/article/details/12757911" target="_blank" rel="noopener">Java提高篇1 - 封装</a></p>
+<h3 id="Java特性-封装"><a href="#Java特性-封装" class="headerlink" title="Java特性 - 封装"></a>Java特性 - 封装</h3><ul>
+<li><p>隐藏类的属性和内部方法，只暴露必要的访问接口</p>
+</li>
+<li><p>调整类的属性或者方法时，接口方法不用改动，调整内部实现就可以</p>
+</li>
+<li><p>可以对成员变量的访问进行控制，（进行逻辑判断检查输入的数据是否符合要求），提高代码健壮性</p>
+</li>
+</ul>
+<hr>
+<h3 id="Java特性-继承"><a href="#Java特性-继承" class="headerlink" title="Java特性 - 继承"></a>Java特性 - 继承</h3><p>1、子类拥有父类==非private==的属性和方法。</p>
+<p>2、子类可以拥有自己属性和方法，即子类可以对父类进行扩展。</p>
+<p>3、子类可以用自己的方式实现父类的方法。</p>
+<p><strong>不支持多继承的原因</strong>：<br>==如果多个父类有共同方法，会产生调用不确定性==</p>
+<p>this ： 代表一个本类对象的引用<br>super ： 代表一个父类空间   </p>
+<blockquote>
+<p>子类重写父类方法</p>
+</blockquote>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ul>
+<li>子类重写父类方法时，子类权限必须要大于等于父类的权限</li>
+<li>静态只能覆盖静态，或者被静态覆盖<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4>对一个类进行子类的扩展时，子类需要保留父类的方法声明，但是要定义子类中该方法的特有内容时，使用重写操作</li>
+</ul>
+<h4 id="子类的实例化过程"><a href="#子类的实例化过程" class="headerlink" title="子类的实例化过程"></a>子类的实例化过程</h4><p>==子类中所有的构造函数默认都会访问父类中的空参数的构造函数==  </p>
+<h4 id="子类实例化的时候为什么要访问父类中的构造函数"><a href="#子类实例化的时候为什么要访问父类中的构造函数" class="headerlink" title="子类实例化的时候为什么要访问父类中的构造函数"></a>子类实例化的时候为什么要访问父类中的构造函数</h4><p>因为子类继承了父类，获取到了父类中的内容，所有在使用父类内容之前，要先看父类是如何对自己内容进行初始化的，所以子类在构造对象时，必须访问父类中的构造函数</p>
+<p>如果父类中没有定义空参构造函数，那么子类==必须在子类构造函数第一行，显式写super语句==，如果使用了this调用本类的构造函数，那么就没有super了，子类中的其他构造函数会访问父类的构造函数</p>
+<blockquote>
+<p>讲到继承一定少不了这三个东西：构造器、protected关键字、向上转型     </p>
+</blockquote>
+<ul>
+<li>构造器    </li>
+</ul>
+<p>通过前面我们知道子类可以继承父类的属性和方法，除了那些private的外还有一样是子类继承不了的—构造器。<br>对于构造器而言，它只能够被调用，而不能被继承。    </p>
+<p>==对于继承来说，子类会默认调用父类的构造器，但是如果没有默认的父类构造器，子类必须要显示的指定父类的构造器==，而且必须是在子类构造器中做的第一件事(第一行代码)。       </p>
+<p>调用父类的构造方法我们使用super()即可。</p>
+<ul>
+<li><p>protected关键字<br>protected修饰的类，只可以被==子类==以及与它位于==同一个包的类==访问到</p>
+</li>
+<li><p>向上转型<br>将子类转换成父类，在继承关系上面是向上移动的，所以一般称之为向上转型。<br>由于向上转型是从一个叫专用类型向较通用类型转换，所以它总是安全的，唯一发生变化的可能就是属性和方法的丢失。</p>
+</li>
+</ul>
+<h4 id="谨慎使用继承"><a href="#谨慎使用继承" class="headerlink" title="谨慎使用继承"></a>谨慎使用继承</h4><p>继承存在如下缺陷：<br>1、父类变，子类就必须变。   </p>
+<p>2、继承破坏了封装，对于父类而言，它的实现细节对与子类来说都是透明的。    </p>
+<p>3、继承是一种强耦合关系。</p>
+<p>问一问自己是否需要从子类向父类进行向上转型。==如果必须向上转型，则继承是必要的==，但是如果不需要，则应当好好考虑自己是否需要继承。         </p>
+<hr>
+<h3 id="Java特性-多态"><a href="#Java特性-多态" class="headerlink" title="Java特性 - 多态"></a>Java特性 - 多态</h3><h3 id="多态原理"><a href="#多态原理" class="headerlink" title="多态原理"></a><a href="http://hxraid.iteye.com/blog/428891" target="_blank" rel="noopener">多态原理</a></h3><p>父类或者接口的引用指向其子类的对象  </p>
+<p>只有在运行的时候才会知道引用变量所指向的具体实例对象。</p>
+<p><strong>多态的好处</strong>    </p>
+<ul>
+<li>提高了代码的扩展性<br>原来代码传入一个接口或者类<br>扩展时，传入一个子类，原来的代码不用变，==由子类重写原来的方法，原来的引用会指向子类重写后的方法==<br>不用重新定义一个方法，传入新的对象</li>
+</ul>
+<p>由于继承了父类的子类对象可以==向上转型==为父类对象，所以可以定义==一个父类对象的引用指向子类对象==  </p>
+<p>指向子类的父类引用由于向上转型了，它只能访问父类中拥有的方法和属性，而==对于子类中存在而父类中不存在的方法，该引用是不能使用的==，尽管是重载该方法。<br>若==子类重写==了父类中的某些方法，在调用该些方法的时候，必定是使用子类中定义的这些方法（动态连接、动态调用）。</p>
+<h3 id="多态时成员的特点"><a href="#多态时成员的特点" class="headerlink" title="多态时成员的特点"></a>多态时成员的特点</h3><p>Animal cat = new Cat;</p>
+<ol>
+<li>成员变量<br>编译和运行都参考等号的左边</li>
+<li>成员函数（非静态）<br>编译看左边，运行看右边  </li>
+<li>静态方法<br>编译和运行都看左边，==静态方法和类绑定，类名直接调用==<h4 id="覆盖重写只发生在方法上，父类的属性无法被覆盖"><a href="#覆盖重写只发生在方法上，父类的属性无法被覆盖" class="headerlink" title="覆盖重写只发生在方法上，父类的属性无法被覆盖"></a>覆盖重写只发生在方法上，父类的属性无法被覆盖</h4></li>
+</ol>
+<p><strong>为了在父类引用中使用子类的特有方法，可以将父类对象==向下转型==，转换成对应的子类引用</strong></p>
+<h3 id="判断对象具体类型的关键字"><a href="#判断对象具体类型的关键字" class="headerlink" title="判断对象具体类型的关键字"></a>判断对象具体类型的关键字</h3><p><strong>==instanceof==</strong>，通常用于向下转型前进行健壮性的判断</p>
+<blockquote>
+<p>多态的三个必要条件 </p>
+</blockquote>
+<ul>
+<li>继承、实现：在多态中必须存在有继承关系的子类和父类或者实现类接口的类。<ul>
+<li>重写：子类对父类中某些方法进行重新定义，在调用这些方法时就会调用子类的方法。</li>
+<li>向上转型：在多态中需要将子类的引用赋给父类对象，只有这样该引用才能够具备技能调用父类的方法和子类的方法。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>多态的实现形式 </p>
+</blockquote>
+<ul>
+<li>继承<br>对于引用子类的父类类型，在处理该引用时，它适用于继承该父类的所有子类，子类对象的不同，对方法的实现也就不同，执行相同动作产生的行为也就不同。<br>==如果父类是抽象类，那么子类必须要实现父类中所有的抽象方法==，这样该父类所有的子类一定存在统一的对外接口，但其内部的具体实现可以各异。<br>这样我们就可以使用顶层类提供的统一接口来处理该层次的方法。</li>
+<li>接口<br>继承都是单继承，只能为一组相关的类提供一致的服务接口。但是接口可以是多继承多实现，它能够利用一组相关或者不相关的接口进行组合与扩充，能够对外提供一致的服务接口。<br>所以它相对于继承来说有更好的灵活性。</li>
+</ul>
+<p><a href="http://blog.csdn.net/chenssy/article/details/12786385" target="_blank" rel="noopener">根据继承链中方法调用的优先级来确认方法，该优先级为：  </a><br>this.show(O)、super.show(O)、this.show((super)O)、super.show((super)O)。</p>
+
+
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://yoursite.com/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-09-12-%E5%B0%81%E8%A3%85%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E5%A4%9A%E6%80%81/" target="_blank" rel="external">http://yoursite.com/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-09-12-%E5%B0%81%E8%A3%85%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E5%A4%9A%E6%80%81/</a>
+                </p>
+                <footer><cite><a href="http://yoursite.com">@Pirate5946</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+    <div class="waves-block waves-effect prev fl">
+      <a href="/2020/05/23/JVM-2017-09-21-Java%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB-JVM%E7%AF%87/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java知识体系 -- JVM篇</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-08-30-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">动态代理原理分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Java基础与提高-2017-09-12-封装，继承，多态" data-title="封装,继承,多态" data-url="http://yoursite.com/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-09-12-%E5%B0%81%E8%A3%85%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E5%A4%9A%E6%80%81/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "封装,继承,多态",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://yoursite.com/2020/05/23/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98-2017-09-12-%E5%B0%81%E8%A3%85%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E5%A4%9A%E6%80%81/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+
+<script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
