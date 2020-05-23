@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Pirate5946</title>
+  
+  <subtitle>coding world, coding life.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-05-23T03:44:39.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Pirate5946</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>动态代理原理分析</title>
+    <link href="http://yoursite.com/2020/05/23/Java-JVM-2017-08-30-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/"/>
+    <id>http://yoursite.com/2020/05/23/Java-JVM-2017-08-30-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/</id>
+    <published>2020-05-23T03:44:39.000Z</published>
+    <updated>2020-05-23T03:44:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p>动态代理类的字节码是在程序运行期间由JVM根据反射等机制动态的生成，所以==不存在代理类的class文件==。代理类和委托类的关系是在程序运行时确定。</p><p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-proxy1/index.html" target="_blank" rel="noopener">Java 动态代理机制分析及扩展，第 1 部分</a>  </p><p><a href="http://blog.csdn.net/mhmyqn/article/details/48474815" target="_blank" rel="noopener">动态代理分析2</a></p><p><a href="http://www.cnblogs.com/MOBIN/p/5597215.html" target="_blank" rel="noopener">动态代理分析</a></p><h3 id="相关的类和接口"><a href="#相关的类和接口" class="headerlink" title="相关的类和接口"></a>相关的类和接口</h3><ul><li><p>java.lang.reflect.Proxy：<br>这是 Java 动态代理机制的主类，它提供了一组静态方法来==为一组接口动态地生成代理类及其对象==</p><ul><li><p>// 方法 1: 该方法用于获取指定代理对象所关联的调用处理器<br>static InvocationHandler getInvocationHandler(Object proxy) </p></li><li><p>// 方法 4：该方法用于为指定类装载器、一组接口及调用处理器==生成动态代理类实例==<br>static Object newProxyInstance(ClassLoader loader, Class[] interfaces,<br>InvocationHandler h)</p></li></ul></li><li><p>java.lang.reflect.InvocationHandler：<br>这是调用处理器接口，它自定义了一个 invoke 方法，用于集中处理在动态代理类对象上的方法调用，通常在该方法中实现对委托类的代理访问。</p><ul><li>// 该方法负责集中处理动态代理类上的所有方法调用。第一个参数既是代理类实例，第二个参数是被调用的方法对象<br>// 第三个方法是调用参数。调用处理器根据这三个参数进行预处理或分派到委托类实例上发射执行<br>Object invoke(Object proxy, Method method, Object[] args)</li></ul></li></ul><p>==动态代理类==与普通类的唯一区别就是其字节码是由 ==JVM 在运行时动态生成的而非预存在于任何一个 .class 文件中==。<br>通过类装载器来进行装载才能使用</p><h3 id="具体实现步骤"><a href="#具体实现步骤" class="headerlink" title="具体实现步骤"></a>具体实现步骤</h3><ol><li><p>通过实现 InvocationHandler 接口==创建自己的调用处理器==；  </p></li><li><p>通过为 Proxy 类指定 ClassLoader 对象和一组 interface 来==创建动态代理类==；</p></li><li><p>通过反射机制==获得动态代理类的构造函数==，其唯一参数类型是调用处理器接口类型；</p></li><li><p>通过构造函数==创建动态代理类实例，==构造时调用处理器对象作为参数被传入====</p></li></ol><p>实际使用过程更加简单，因为 Proxy 的静态方法 newProxyInstance 已经为我们封装了步骤 2 到步骤 4 的过程，所以简化后的过程如下    </p><ol><li><p>// InvocationHandlerImpl 实现了 InvocationHandler 接口，并能实现方法调用从代理类到委托类的分派转发<br>InvocationHandler handler = new InvocationHandlerImpl(..); </p></li><li><p>// 通过 Proxy 直接创建动态代理类实例<br>Interface proxy = (Interface)Proxy.newProxyInstance( classLoader,<br>new Class[] { Interface.class }, handler ); </p></li></ol><h3 id="Java-动态代理机制的一些特点。"><a href="#Java-动态代理机制的一些特点。" class="headerlink" title="Java 动态代理机制的一些特点。"></a>Java 动态代理机制的一些特点。</h3><ul><li>包：<br>如果所代理的接口都是 public 的，那么它将被定义在顶层包（即包路径为空）<br>如果所代理的接口中有非 public 的接口（因为接口不能被定义为 protect 或 private，所以除 public 之外就是默认的 package 访问级别），那么它将被定义在该接口所在包（假设代理了 com.ibm.developerworks 包中的某非 public 接口 A，那么新生成的代理类所在的包就是 com.ibm.developerworks），<br>这样设计的目的是为了最大程度的保证动态代理类不会因为包管理的问题而无法被成功定义并访问；    </li><li>类修饰符：<br>==该代理类具有 final 和 public 修饰符==，意味着它可以被所有的类访问，但是不能被再度继承；</li><li>类名：<br>格式是“$ProxyN”，其中 N 是一个逐一递增的阿拉伯数字，代表 Proxy 类第 N 次生成的动态代理类，<br>值得注意的一点是，并不是每次调用 Proxy 的静态方法创建动态代理类都会使得 N 值增加，原因是如果对同一组接口（包括接口排列的顺序相同）试图重复创建动态代理类，它会很聪明地返回先前已经创建好的代理类的类对象，而不会再尝试去创建一个全新的代理类，<br>这样可以节省不必要的代码重复生成，提高了代理类的创建效率。</li><li>4）类继承关系：<br>该类的继承了Proxy类、实现了一组接口</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;动态代理&quot;&gt;&lt;a href=&quot;#动态代理&quot; class=&quot;headerlink&quot; title=&quot;动态代理&quot;&gt;&lt;/a&gt;动态代理&lt;/h3&gt;&lt;p&gt;动态代理类的字节码是在程序运行期间由JVM根据反射等机制动态的生成，所以==不存在代理类的class文件==。代理类和委托类
+      
+    
+    </summary>
+    
+    
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+      <category term="Java基础与提高" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/Java%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8F%90%E9%AB%98/"/>
+    
+    
+      <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2020/05/22/hello-world/"/>
+    <id>http://yoursite.com/2020/05/22/hello-world/</id>
+    <published>2020-05-22T15:03:10.000Z</published>
+    <updated>2020-05-22T15:03:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
